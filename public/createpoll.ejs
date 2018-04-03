@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Profile</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+      <link href="/css/nav.css" rel="stylesheet" type="text/css">
+      <link href="/css/profile.css" rel="stylesheet" type="text/css">
+      <link href="/css/form.css" rel="stylesheet" type="text/css">
+      <link href="/css/list.css" rel="stylesheet" type="text/css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   </head>
+   <body>
+     <nav class="navbar navbar-expand-sm">
+        <ul class="navbar-nav">
+          <li>
+            <img src="/img/vote.png" class="nav-icon"></img>
+          </li>
+          <li class="nav-brand">
+            <h1 id="nav-title">Voting App</h1>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <a href="/">
+            <li class="nav-button">Home</li>
+          </a>
+          <a href="/logout">
+            <li class="nav-button">Logout</li>
+          </a>
+        </ul>
+      </nav>
+      <div class="container-fluid">
+        <div id="profile-top-container">
+          <% console.log(user.name); %>
+          <h1 id="profile-title">Hello, <%= user.name %></h1>
+          <h4 id="profile-subtitle">What would you like to do?</h4>
+          <div id="profile-button-container">
+            <button id="new-poll-button" class="profile-button profile-selected">
+              New Poll
+            </button>
+            <button id="my-polls-button" class="profile-button">
+              My Polls
+            </button>
+          </div>
+        </div>
+        <div id="profile-action-container">
+          <div class="form-box2">
+            <h3 class="form-title">Create Poll</h3>
+            <h6 class="form-subtitle">To create a poll, add a title and a few options to get started
+             (You can add more later)
+            </h6>
+            <% if (error && error.length > 0) { %>
+              <div class="alert alert-danger"><%= error %></div>
+            <% } %>
+            <% if (success && success.length > 0) { %>
+              <div class="alert alert-success"><%= success %></div>
+            <% } %>
+            <form action="/poll" method="post">
+              <div class="form-group">
+                  <input type="text" class="form-control form-input" name="title" placeholder="Poll Title">
+              </div>
+              <div class="form-group">
+                  <input type="text" class="form-control form-input" name="option1" placeholder="Poll Option 1">
+              </div>
+              <div class="form-group">
+                  <input type="text" class="form-control form-input" name="option2" placeholder="Poll Option 2">
+              </div>
+              <div class="form-group">
+                  <input type="text" class="form-control form-input" name="option3" placeholder="Poll Option 3">
+              </div>
+              <div class="button-container">
+                <button type="submit" class="form-button">Create Poll</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <%- include bottombar.ejs %>
+      </div>
+   </body>
+   <script>
+    $(document).ready(function() {
+      $("#my-polls-button").on("click", function() {
+        window.location.href = '/mypolls';
+      });
+    });
+   </script>
+</html>

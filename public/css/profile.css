@@ -1,0 +1,59 @@
+/* Profile css */
+/* =========================== */
+
+#profile-top-container {
+	margin: 0px;
+  padding: 0px;
+	text-align: center;
+}
+
+#profile-title {
+	color: #F5F5F5;
+  margin-top: 15px;
+}
+
+#profile-subtitle {
+	color: #F5F5F5;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#profile-button-container {
+	margin-top: 30px;
+	width: 200px;
+	margin-bottom: 30px;
+	padding: 0px;
+	display: inline-block;
+}
+
+.profile-button {
+	width: 85px;
+	background-color: #3aaceb;
+	color: white;
+	height: 40px;
+	margin: 0px;
+	border-radius: 5px;
+	border:none;
+	outline: none;
+	display: inline-block;
+}
+
+.profile-selected {
+	background-color: #BDBDBD;
+}
+
+.profile-button:hover {
+	background-color: #BDBDBD;
+}
+
+.profile-button:focus {
+	border: none;
+	outline: none;
+}
+
+#profile-action-container {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}

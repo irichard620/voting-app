@@ -1,0 +1,95 @@
+/* Login/Signup css */
+/* =========================== */
+
+.form-box {
+	width: 450px;
+	margin-top: 50px;
+	margin-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 30px;
+	border-radius: 5px;
+	background-color: #31414f;
+}
+
+.form-box2 {
+	width: 450px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 30px;
+	border-radius: 5px;
+	background-color: #31414f;
+}
+
+.form-title {
+	color: white;
+	font: 400 28px/1.5 "Pacifico";
+}
+
+.form-subtitle {
+	color: #8b98a5;
+}
+
+.share-text {
+	margin-top: 20px;
+}
+
+::placeholder {
+    color: #8b98a5;
+    opacity: 1;
+}
+
+.form-group {
+	margin-top: 25px;
+}
+
+.form-input {
+	background-color: #31414f;
+	color: white;
+}
+
+.button-container {
+	text-align: left;
+}
+
+.form-button {
+	background-color: #3aaceb;
+	color: white;
+	height: 45px;
+	outline: none;
+	border: none;
+	width: 100%;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.form-button:hover {
+	background-color: #BDBDBD;
+}
+
+#bottom-text {
+	text-align: center;
+	color: white;
+}
+
+a {
+	color: #3aaceb;
+}
+
+#chart {
+	background-color: #31414f;
+}
+
+#share-buttons {
+	display: inline-block;
+}
+
+#share-buttons img {
+	width: 50px;
+	padding: 5px;
+	border: 0;
+	box-shadow: 0;
+	display: inline-block;
+}

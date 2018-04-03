@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+   <head>
+      <title>Home</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+      <link href="/css/nav.css" rel="stylesheet" type="text/css">
+      <link href="/css/profile.css" rel="stylesheet" type="text/css">
+      <link href="/css/list.css" rel="stylesheet" type="text/css">
+   </head>
+   <body>
+     <nav class="navbar navbar-expand-sm">
+        <ul class="navbar-nav">
+          <li>
+            <img src="/img/vote.png" class="nav-icon"></img>
+          </li>
+          <li class="nav-brand">
+            <h1 id="nav-title">Voting App</h1>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <% if (user) { %>
+            <a href="/createpoll">
+              <li class="nav-button">My Profile</li>
+            </a>
+            <a href="/logout">
+              <li class="nav-button">Logout</li>
+            </a>
+          <% } else { %>
+            <a href="/login">
+              <li class="nav-button">Login</li>
+            </a>
+            <a href="/signup">
+              <li class="nav-button">Sign Up</li>
+            </a>
+          <% } %>
+        </ul>
+      </nav>
+      <div class="container-fluid">
+        <div id="profile-top-container">
+          <% if (user) { %>
+            <h1 id="profile-title">Hello, <%= user.name %></h1>
+            <h5 id="profile-subtitle">All polls are listed below in order of most votes.
+            Click a poll to see more details and for further options. Click the "My Profile"
+            button above to create new polls or see your created polls.</h5>
+          <% } else { %>
+            <h1 id="profile-title">Hello</h1>
+            <h5 id="profile-subtitle">All polls are listed below in order of most votes.
+            Click a poll to see more details and for further options. To create your own polls
+            and to share with friends, click login or signup above.</h5>
+          <% } %>
+        </div>
+        <div id="profile-action-container">
+          <div class="list-box">
+            <h3 class="list-title">All Polls</h3>
+            <div class="row">
+              <% if (polls.length === 0) { %>
+                <div class="col-md-3 poll-outline">
+                  <div class="poll-item">
+                    <h6>Loading...</h6>
+                  </div>
+                </div>
+              <% } else { %>
+                <% for (var i = 0; i < polls.length; i++) { %>
+                  <div class="col-md-3 poll-outline">
+                    <% var link = "/poll/" + polls[i]._id %>
+                    <a href=<%= link %> class="poll-link">
+                      <div class="poll-item">
+                        <h4 class="poll-title"><%= polls[i].title %></h6>
+                        <h6 class="poll-subtitle">Votes: <%= polls[i].total_votes %></h6>
+                      </div>
+                    </a>
+                  </div>
+                <% } %>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <%- include bottombar.ejs %>
+      </div>
+   </body>
+</html>

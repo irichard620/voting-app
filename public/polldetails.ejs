@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Poll Details</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+      <link href="/css/nav.css" rel="stylesheet" type="text/css">
+      <link href="/css/profile.css" rel="stylesheet" type="text/css">
+      <link href="/css/form.css" rel="stylesheet" type="text/css">
+      <link href="/css/list.css" rel="stylesheet" type="text/css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+          var dataArray = [];
+          dataArray.push(['Option', 'Votes']);
+          var poll = <%- JSON.stringify(poll) %>;
+          for (var i = 0; i < poll.poll_options.length; i++) {
+            dataArray.push([poll.poll_options[i].title, poll.poll_options[i].total_votes]);
+          }
+          var data = google.visualization.arrayToDataTable(dataArray);
+
+          var options = {
+            pieHole: 0.4
+          };
+
+          var chart = new google.visualization.PieChart(document.getElementById('chart'));
+
+          chart.draw(data, options);
+        }
+      </script>
+   </head>
+   <body>
+     <nav class="navbar navbar-expand-sm">
+        <ul class="navbar-nav">
+          <li>
+            <img src="/img/vote.png" class="nav-icon"></img>
+          </li>
+          <li class="nav-brand">
+            <h1 id="nav-title">Voting App</h1>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <% if (user) { %>
+            <a href="/">
+              <li class="nav-button">Home</li>
+            </a>
+            <a href="/createpoll">
+              <li class="nav-button">My Profile</li>
+            </a>
+            <a href="/logout">
+              <li class="nav-button">Logout</li>
+            </a>
+          <% } else { %>
+            <a href="/">
+              <li class="nav-button">Home</li>
+            </a>
+            <a href="/login">
+              <li class="nav-button">Login</li>
+            </a>
+            <a href="/signup">
+              <li class="nav-button">Sign Up</li>
+            </a>
+          <% } %>
+        </ul>
+      </nav>
+      <div class="container-fluid">
+        <div id="profile-top-container">
+          <h1 id="profile-title">Poll Details</h1>
+          <h4 id="profile-subtitle"><%= poll.title %></h4>
+        </div>
+        <div id="profile-action-container">
+          <!-- Vote form -->
+          <div class="form-box2">
+            <h3 class="form-title">Vote</h3>
+            <h6 class="form-subtitle">Select an option from the list below to vote.
+            </h6>
+            <% if (voteError && voteError.length > 0) { %>
+              <div class="alert alert-danger"><%= voteError %></div>
+            <% } %>
+            <% if (voteSuccess && voteSuccess.length > 0) { %>
+              <div class="alert alert-success"><%= voteSuccess %></div>
+            <% } %>
+            <% var action = '/poll/' + poll._id + '/vote'; %>
+            <form action=<%= action %> method="post">
+              <div class="form-group">
+                  <select name="option" placeholder="Pick Option">
+                    <% for (var i = 0; i < poll.poll_options.length; i++) { %>
+                      <option value=<%= poll.poll_options[i].title %>>
+                        <%= poll.poll_options[i].title %></option>
+                    <% } %>
+                  </select>
+              </div>
+              <div class="button-container">
+                <button type="submit" class="form-button">Vote</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Only show add poll option if authenticated -->
+          <% if (user) { %>
+            <div class="form-box2">
+              <h3 class="form-title">Add Poll Option</h3>
+              <h6 class="form-subtitle">If you don't like the current poll options,
+                you can add a new one here.
+              </h6>
+              <% if (addError && addError.length > 0) { %>
+                <div class="alert alert-danger"><%= addError %></div>
+              <% } %>
+              <% if (addSuccess && addSuccess.length > 0) { %>
+                <div class="alert alert-success"><%= addSuccess %></div>
+              <% } %>
+              <% var action = '/poll/' + poll._id + '/option'; %>
+              <form action=<%= action %> method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control form-input" name="option" placeholder="Poll Option">
+                </div>
+                <div class="button-container">
+                  <button type="submit" class="form-button">Add Option</button>
+                </div>
+              </form>
+            </div>
+          <% } %>
+
+          <!-- Voting results box -->
+          <div class="form-box2">
+            <h3 class="form-title">Voting Results</h3>
+            <div id="chart" style="width: 400px; height: 400px;"></div>
+            <h6 class="form-subtitle share-text">Share with friends
+            </h6>
+            <div id="share-buttons">
+              <% var twitterURL =
+              "https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost:3000%2Fpoll%2F"
+              + poll._id + "&text=" + poll.title + "%20%7C%20voting-app&original_referer=http://localhost:3000/poll/" + poll._id %>
+              <a href=<%= twitterURL %> target="_blank">
+                <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <%- include bottombar.ejs %>
+      </div>
+   </body>
+   <script>
+    $(document).ready(function() {
+
+    });
+   </script>
+</html>
