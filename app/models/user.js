@@ -6,8 +6,7 @@ var userSchema = mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  created_polls: [String], // Array of poll IDs
-  voted_polls: [String] // Array of poll IDs
+  created_polls: [String] // Array of poll IDs
 });
 
 // generating a hash

@@ -13,6 +13,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const cookieSession = require('cookie-session')
 
 // Initialization ==============================
 
@@ -39,6 +40,7 @@ app.set('view engine', 'ejs');
 // Set up sessions for express
 app.use(session({
   secret: config.SESSION_SECRET,
+  secure: true,
   resave: false,
   saveUninitialized: false
 }));
@@ -58,6 +60,6 @@ router(app, passport);
 // Launch app =====================================
 
 // Start Server
-app.listen(config.PORT, function () {
+app.listen(process.env.PORT || config.PORT, function () {
    console.log('Node.js listening on port ' + config.PORT);
 });

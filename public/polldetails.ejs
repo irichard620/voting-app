@@ -75,7 +75,7 @@
         </div>
         <div id="profile-action-container">
           <!-- Vote form -->
-          <div class="form-box2">
+          <div class="form-box3">
             <h3 class="form-title">Vote</h3>
             <h6 class="form-subtitle">Select an option from the list below to vote.
             </h6>
@@ -103,7 +103,7 @@
 
           <!-- Only show add poll option if authenticated -->
           <% if (user) { %>
-            <div class="form-box2">
+            <div class="form-box3">
               <h3 class="form-title">Add Poll Option</h3>
               <h6 class="form-subtitle">If you don't like the current poll options,
                 you can add a new one here.
@@ -127,27 +127,47 @@
           <% } %>
 
           <!-- Voting results box -->
-          <div class="form-box2">
+          <div class="form-box3">
             <h3 class="form-title">Voting Results</h3>
-            <div id="chart" style="width: 400px; height: 400px;"></div>
+            <div id="chart" style="width: 500px; height: 500px;"></div>
             <h6 class="form-subtitle share-text">Share with friends
             </h6>
             <div id="share-buttons">
               <% var twitterURL =
-              "https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost:3000%2Fpoll%2F"
-              + poll._id + "&text=" + poll.title + "%20%7C%20voting-app&original_referer=http://localhost:3000/poll/" + poll._id %>
+              "https://twitter.com/intent/tweet?url=https%3A%2F%2Fian-voting-app.herokuapp.com%2Fpoll%2F"
+              + poll._id + "&text=" + poll.title + "%20voting-app&original_referer=https://ian-voting-app.herokuapp.com/poll/" + poll._id; %>
               <a href=<%= twitterURL %> target="_blank">
                 <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
               </a>
+              <% var pinterestURL =
+              "http://pinterest.com/pin/create/button/?url=https%3A%2F%2Fian-voting-app.herokuapp.com%2Fpoll%2F"
+              + poll._id + "&description=" + poll.title + "%20voting-app"; %>
+              <a href=<%= pinterestURL %> target="_blank">
+                <img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
+              </a>
+              <% var facebookURL =
+              "http://www.facebook.com/sharer.php?u=https%3A%2F%2Fian-voting-app.herokuapp.com%2Fpoll%2F"
+              + poll._id + "%[title]=" + poll.title + "%20voting-app"; %>
+              <a href=<%= facebookURL %> target="_blank">
+                <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+              </a>
             </div>
           </div>
+
+          <!-- Delete button -->
+          <% if (user && user._id.toString() === poll.creatorId) { %>
+            <% if (deleteError && deleteError.length > 0) { %>
+              <div class="alert alert-success"><%= deleteError %></div>
+            <% } %>
+            <% var deleteURL = '/poll/' + poll._id + '/delete'; %>
+            <h5 id="delete-text"><a href=<%= deleteURL %>>Delete this poll</a></h5>
+          <% } %>
         </div>
         <%- include bottombar.ejs %>
       </div>
    </body>
    <script>
     $(document).ready(function() {
-
     });
    </script>
 </html>

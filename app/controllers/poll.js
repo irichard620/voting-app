@@ -1,5 +1,6 @@
 // user model
 var Poll = require('../models/poll');
+var User = require('../models/user');
 
 exports.createPoll = function(req, res, next) {
   // Get fields
@@ -222,24 +223,49 @@ exports.votePollOption = function(req, res, next) {
 
       req.poll = poll;
 
-      // Add voted poll to user
-      if (req.user) {
-        req.user.voted_polls.push(poll._id);
-        req.user.save((err, user) => {
-          if (err) {
-            req.flash('votePollOptionSuccessMessage', '');
-            req.flash('votePollOptionErrorMessage', 'Internal server error occurred. Please try again');
-            return next();
-          }
-          req.flash('votePollOptionSuccessMessage', 'You successfully voted in this poll.');
-          req.flash('votePollOptionErrorMessage', '');
-          return next();
-        });
-      } else {
-        req.flash('votePollOptionSuccessMessage', 'You successfully voted in this poll.');
-        req.flash('votePollOptionErrorMessage', '');
-        return next();
+      req.flash('votePollOptionSuccessMessage', 'You successfully voted in this poll.');
+      req.flash('votePollOptionErrorMessage', '');
+      return next();
+    });
+  });
+}
+
+exports.deletePoll = function(req, res, next) {
+  var pollId = req.params.pollId;
+
+  // Find poll
+  Poll.findOne({ _id: pollId }, function(err, poll) {
+    if (err) {
+      req.flash('deletePollSuccessMessage', '');
+      req.flash('deletePollErrorMessage', 'Internal server error occurred. Please try again');
+      return next();
+    }
+
+    if (!req.user || req.user._id.toString() !== poll.creatorId) {
+      req.flash('deletePollSuccessMessage', '');
+      req.flash('deletePollErrorMessage', 'Unauthorized');
+      return next();
+    }
+
+
+    // Remove from user
+    User.findOne({ _id: poll.creatorId }, function(err, user) {
+      var index = user.created_polls.indexOf(poll._id);
+      if (index > -1) {
+        user.created_polls.splice(index, 1);
       }
+      user.save((err, user) => {
+        if (err) {
+          req.flash('deletePollSuccessMessage', '');
+          req.flash('deletePollErrorMessage', 'Internal server error occurred. Please try again');
+          return next();
+        }
+        // Delete
+        poll.remove();
+        req.flash('deletePollSuccessMessage', 'You successfully voted in this poll.');
+        req.flash('deletePollErrorMessage', '');
+        return next();
+      });
     });
   });
 }

@@ -52,6 +52,17 @@ module.exports = function(app, passport) {
     });
   });
 
+  app.get('/poll/:pollId/delete', isLoggedIn, PollController.deletePoll, function(req, res) {
+    // Check if error
+    var deleteError = req.flash('deletePollErrorMessage');
+    console.log(deleteError);
+    if (deleteError && deleteError.length > 0) {
+      res.redirect('/poll/' + req.params.pollId);
+    } else  {
+      res.redirect('/');
+    }
+  });
+
   app.get('/poll/:pollId', PollController.getPoll, function(req, res) {
     res.render('polldetails.ejs', {
       user: req.user,
@@ -59,7 +70,8 @@ module.exports = function(app, passport) {
       voteError: req.flash('votePollOptionErrorMessage'),
       voteSuccess: req.flash('votePollOptionSuccessMessage'),
       addError: req.flash('addPollOptionErrorMessage'),
-      addSuccess: req.flash('addPollOptionSuccessMessage')
+      addSuccess: req.flash('addPollOptionSuccessMessage'),
+      deleteError: req.flash('deletePollErrorMessage'),
     });
   });
 

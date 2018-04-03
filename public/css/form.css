@@ -23,6 +23,17 @@
 	background-color: #31414f;
 }
 
+.form-box3 {
+	width: 550px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 30px;
+	border-radius: 5px;
+	background-color: #31414f;
+}
+
 .form-title {
 	color: white;
 	font: 400 28px/1.5 "Pacifico";
@@ -92,4 +103,13 @@ a {
 	border: 0;
 	box-shadow: 0;
 	display: inline-block;
+}
+
+#delete-text {
+	color: red;
+	text-align: center;
+}
+
+#delete-text:hover {
+	text-decoration: underline;
 }
